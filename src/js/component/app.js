@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //include images into your bundle
 //create your first component
 const Home = () => {
@@ -8,6 +8,14 @@ const Home = () => {
 	const [Lista, agregaraLista] = useState([]);
 	const [Tarea, guardarTarea] = useState("");
 
+	function eliminar(id) {
+		let lista_aux = Lista;
+		lista_aux.splice(id, 1);
+		agregaraLista(lista_aux);
+	}
+	useEffect(() => {
+		console.log(Lista);
+	}, [Lista]);
 	return (
 		<div className="text-center mt-5">
 			{" "}
@@ -16,20 +24,23 @@ const Home = () => {
 				type="text"
 				onChange={evento => {
 					guardarTarea(evento.target.value);
-					console.log(Tarea);
 				}}
 				placeholder="Texto"
 			/>
 			<button
 				onClick={() => {
 					agregaraLista([...Lista, Tarea]);
-					console.log(Lista);
 				}}
 				type="button">
 				Click Me!
 			</button>
 			{Lista.map((element, id) => {
-				return <div key={id}>{element}</div>;
+				return (
+					<div key={id}>
+						{element}{" "}
+						<button onClick={() => eliminar(id)}>Eliminar</button>{" "}
+					</div>
+				);
 			})}
 		</div>
 	);
